@@ -4,6 +4,7 @@
 # JS build once natively instead of emulating it under QEMU per target arch.
 # The production nginx stage stays flag-less so it builds per target arch.
 FROM --platform=$BUILDPLATFORM node:24.21.0 AS build-stage
+ENV NODE_OPTIONS=--max-old-space-size=6144
 
 WORKDIR /app
 

@@ -228,15 +228,6 @@ export const auth = betterAuth({
     enabled: process.env.NODE_ENV === 'production' && process.env.DISABLE_AUTH_RATE_LIMIT !== 'true',
     // The default in-memory store only evicts a key when that same key is read
     // again after expiry, so entries for IPs that never return are kept forever.
-    customStorage: {
-      get: async (key) => {
-        const raw = await redisClient.get(`auth-rate-limit:${key}`);
-        return raw ? JSON.parse(raw) : null;
-      },
-      set: async (key, value) => {
-        await redisClient.set(`auth-rate-limit:${key}`, JSON.stringify(value), 'EX', AUTH_RATE_LIMIT_TTL_SECONDS);
-      },
-    },
   },
 
   // Advanced options
